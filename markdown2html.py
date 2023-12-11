@@ -24,10 +24,8 @@ if __name__ == "__main__":
     # Définir une expression régulière pour trouver les titres
     with open(readme, 'r', encoding='utf-8') as readme:
             lines = readme.readlines()
-            print(lines)
             with open(readhtml, 'w', encoding='utf-8') as tohtml:
                 for line in lines:
-                    print(line)
                     count=0
                     for char in line:
                         if char == '#':
