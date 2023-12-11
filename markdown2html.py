@@ -1,6 +1,8 @@
 #!/usr/bin/python3
+"""Script that takes an argument 2 strings:
 
-"""Markdown to HTML Converter"""
+First argument is the name of the Markdown file
+Second argument is the output file name"""
 
 import sys
 import os
