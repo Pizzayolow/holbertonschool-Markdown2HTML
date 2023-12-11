@@ -30,13 +30,10 @@ if __name__ == "__main__":
                     for char in line:
                         if char == '#':
                             count += 1
-            
-        
+                        elif char == '-':
+                            print("TIRET")
+                            tohtml.write(f"<ul>\n<li>{line.strip('-').strip()}</li>\n</ul>\n")
+                
                     if count > 0:
                             tohtml.write(f"<h{count}>{line.strip('#').strip()}</h{count}>\n")
-
-
-
-
-
-
+                tohtml.write(f"de la boucle")
