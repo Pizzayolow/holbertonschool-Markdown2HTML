@@ -6,7 +6,6 @@ Second argument is the output file name"""
 
 import sys
 import os
-import re
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -19,21 +18,30 @@ if __name__ == "__main__":
         
     readme = sys.argv[1]
     readhtml = sys.argv[2]
-    count = 0
     
-    # Définir une expression régulière pour trouver les titres
-    with open(readme, 'r', encoding='utf-8') as readme:
-            lines = readme.readlines()
-            with open(readhtml, 'w', encoding='utf-8') as tohtml:
-                for line in lines:
-                    count=0
+    with open(readme, 'r', encoding='utf-8') as readme_file:
+        lines = readme_file.readlines()
+        
+        with open(readhtml, 'w', encoding='utf-8') as tohtml:
+            in_list = False
+            
+            for line in lines:
+                if line.startswith('-'):
+                    if not in_list:
+                        tohtml.write("<ul>\n")
+                        in_list = True
+                    tohtml.write(f"<li>{line.lstrip('-').strip()}</li>\n")
+                else:
+                    if in_list:
+                        tohtml.write("</ul>\n")
+                        in_list = False
+                    count = 0
                     for char in line:
                         if char == '#':
                             count += 1
-                        elif char == '-':
-                            print("TIRET")
-                            tohtml.write(f"<ul>\n<li>{line.strip('-').strip()}</li>\n</ul>\n")
-                
                     if count > 0:
-                            tohtml.write(f"<h{count}>{line.strip('#').strip()}</h{count}>\n")
-                tohtml.write(f"de la boucle")
+                        tohtml.write(f"<h{count}>{line.strip('#').strip()}</h{count}>\n")
+
+            if in_list:
+                tohtml.write("</ul>\n")
+
