@@ -24,17 +24,26 @@ if __name__ == "__main__":
         
         with open(readhtml, 'w', encoding='utf-8') as tohtml:
             in_list = False
-            
+            in_ord_list = False
+
             for line in lines:
                 if line.startswith('-'):
                     if not in_list:
                         tohtml.write("<ul>\n")
                         in_list = True
                     tohtml.write(f"<li>{line.lstrip('-').strip()}</li>\n")
+                elif line.startswith('*'):
+                    if not in_ord_list:
+                        tohtml.write("<ol>\n")
+                        in_ord_list = True
+                    tohtml.write(f"<li>{line.lstrip('*').strip()}</li>\n")
                 else:
                     if in_list:
                         tohtml.write("</ul>\n")
                         in_list = False
+                    if in_ord_list:
+                        tohtml.write("</ol>\n")
+                        in_ord_list = False
                     count = 0
                     for char in line:
                         if char == '#':
@@ -44,4 +53,5 @@ if __name__ == "__main__":
 
             if in_list:
                 tohtml.write("</ul>\n")
-
+            if in_ord_list:
+                tohtml.write("</ol>\n")
