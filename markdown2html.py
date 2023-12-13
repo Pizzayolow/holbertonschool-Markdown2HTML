@@ -72,13 +72,4 @@ if __name__ == "__main__":
                         tohtml.write(f"<br />\n")
 
                     tohtml.write(f"{line.strip()}\n")
-
-                # else:
-                #     if in_list:
-                #         tohtml.write("</ul>\n")
-                #         in_list = False
-                #     if in_ord_list:
-                #         tohtml.write("</ol>\n")
-                #         in_ord_list = False
-
-            
+   
