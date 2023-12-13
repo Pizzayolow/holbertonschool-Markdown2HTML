@@ -42,7 +42,6 @@ if __name__ == "__main__":
                     or line.startswith("-")
                     or line.startswith("\n")
                 ):
-                    print(f"ici = {line}")
                     tohtml.write(f"</p>\n")
                     p_open = False
 
@@ -66,13 +65,10 @@ if __name__ == "__main__":
                         in_ord_list = True
                     tohtml.write(f"<li>{line.lstrip('*').strip()}</li>\n")
                 elif not line.startswith("\n"):
-                    print(f"line = {line}")
                     if not p_open:
-                        print("if popen = false")
                         tohtml.write(f"<p>\n")
                         p_open = True
                     else:
-                        print("if popen = true")
                         tohtml.write(f"<br />\n")
 
                     tohtml.write(f"{line.strip()}\n")
