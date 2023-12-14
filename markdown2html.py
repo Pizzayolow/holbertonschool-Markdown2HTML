@@ -7,6 +7,7 @@ Second argument is the output file name"""
 import sys
 import os
 import re
+import hashlib
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -32,9 +33,9 @@ if __name__ == "__main__":
                 
                 # Search ** ** and replace by <b> </b>
                 line = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', line)
+                
                 # Search __ __ and replace by <em> </em>
                 line = re.sub(r'__(.*?)__', r'<em>\1</em>', line)
-                
                 
                 if in_list and not (line.startswith('-')):
                     tohtml.write("</ul>\n")
@@ -51,6 +52,19 @@ if __name__ == "__main__":
                 ):
                     tohtml.write(f"</p>\n")
                     p_open = False
+                
+                if re.search(r'\(\((.*?)\)\)', line):
+                    # Search (( )) in line and remove all c
+                    line = re.sub(r'c', r'', line, flags=re.IGNORECASE)
+                line = re.sub(r'\(\(|\)\)', r'', line)
+                
+                if re.search(r'\[\[(.*?)\]\]', line):
+                    match = re.search(r'\[\[(.*?)\]\]', line)
+                    content = match.group(1)
+                    hashed = hashlib.md5(content.encode('utf-8')).hexdigest()
+                    line = re.sub(content, hashed, line, flags=re.IGNORECASE)
+                line = re.sub(r'\[\[|\]\]', r'', line)
+                
 
                 if line.startswith("#"):
                     count = 0
