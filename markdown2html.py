@@ -30,7 +30,6 @@ if __name__ == "__main__":
             p_open = False
 
             for i, line in enumerate(lines):
-                
                 # Search ** ** and replace by <b> </b>
                 line = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', line)
                 
@@ -55,8 +54,12 @@ if __name__ == "__main__":
                 
                 if re.search(r'\(\((.*?)\)\)', line):
                     # Search (( )) in line and remove all c
-                    line = re.sub(r'c', r'', line, flags=re.IGNORECASE)
+                    match = re.search(r'\(\((.*?)\)\)', line)
+                    without_c = match.group(1)
+                    line_without_c = re.sub(r'c', r'', without_c, flags=re.IGNORECASE)
+                    line = re.sub(without_c, line_without_c, line, flags=re.IGNORECASE)
                 line = re.sub(r'\(\(|\)\)', r'', line)
+                
                 
                 if re.search(r'\[\[(.*?)\]\]', line):
                     match = re.search(r'\[\[(.*?)\]\]', line)
